@@ -1,0 +1,19 @@
+[INFO]: tomcat old version is : tomcat-v20
+[INFO] -----------------------------------------------------------------------                             
+[INFO]2016-04-13 16:30:31
+[INFO] step 1 : self.create_new_tomcat  starting...  
+[INFO] Create a new tomcat content...
+[INFO] tomcat-v41 created completed
+1[INFO] success
+[INFO] -----------------------------------------------------------------------                             
+[INFO]2016-04-13 16:30:32
+[INFO] step 2 : self.put_war_package  starting...  
+[INFO] pwd : /usr/local/app/tomcat-v41/webapps
+ERROR : /userfor/created failed
+ERROR : excute function : self.put_war_package
+
+[INFO] start to rollback 
+[INFO] test the availability of tomcat service...  
+[INFO] request :http://172.16.255.87//userfor//
+[INFO]   response time: 20ms
+[INFO] rollback completed 

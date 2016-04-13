@@ -1,0 +1,5 @@
+[INFO] -----------------------------------------------------------------------                         
+[INFO]2016-04-12 13:37:57
+[INFO] step 1 : self.put_war_package  starting...  
+[INFO] upload war packge ----> product environment..
+[INFO]/tmp/userfor.war---->/usr/local/app/userfor.war
