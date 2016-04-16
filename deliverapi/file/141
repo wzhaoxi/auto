@@ -1,0 +1,10 @@
+ERROR: Low level socket error connecting to host 172.16.255.87 on port 22: Unable to connect to port 22 on  or 172.16.255.87 (tried 1 time)
+[INFO] -----------------------------------------------------------------------                             
+[INFO]2016-04-16 10:31:28
+[INFO] step 1 : self.create_new_tomcat  starting...  
+[INFO] Create a new tomcat content...
+ERROR: Low level socket error connecting to host 172.16.255.87 on port 22: Unable to connect to port 22 on  or 172.16.255.87 (tried 1 time)
+ERROR : excute function : self.create_new_tomcat
+
+[INFO] start to rollback 
+ERROR: Low level socket error connecting to host 172.16.255.87 on port 22: Unable to connect to port 22 on  or 172.16.255.87 (tried 1 time)

@@ -39,7 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'deliverapi',
+    'rest_framework_docs',
+    'rest_framework_swagger',
 ]
+
+REST_FRAMEWORK_DOCS = {
+    'HIDE_DOCS': False  # Default: False
+}
+
+
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,3 +146,94 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+
+
+#SWAGGER_SETTINGS = {
+#    'exclude_namespaces': ['rest_framework'],
+#    'api_version': '0.1',
+##    'api_path': '/api',
+#    'enabled_methods': [
+#        'get',
+#        'post',
+#        'put',
+#        'patch',
+#        'delete'
+#    ],
+#    'api_key': '',
+#    'is_authenticated': False,
+#    'is_superuser': False,
+#    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+#    'permission_denied_handler': None,
+#    'resource_access_handler': None,
+#    'base_path':'127.0.0.1:8000/api-docs',
+#    'info': {
+#        'description': 'This is a sample server Petstore server. '
+#                       'You can find out more about Swagger at '
+#                       '<a href="http://swagger.wordnik.com">'
+#                       'http://swagger.wordnik.com</a> '
+#                       'or on irc.freenode.net, #swagger. '
+#                       'For this sample, you can use the api key '
+#                       '"special-key" to test '
+#                       'the authorization filters',
+#        'license': 'auth',
+#        'licenseUrl': '/api/login/',
+#        'title': 'Auto Deployment System',
+#    },
+#    'doc_expansion': 'none',
+#    'paths': {
+#        '/': {
+#            'get':{
+#                "summary": "Product Types",
+#                "description": "The Products endpoint returns information about the *Uber* products\noffered at a given location. The response includes the display name\nand other details about each product, and lists the products in the\nproper display order.\n",
+#                'responses':{'200': {'description': 'echo GET'}}
+#            }
+#        }
+#    }
+#}
+
+
+SWAGGER_SETTINGS = {
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Auto Deployment System",
+        "description": "#### Feel free to make a path or an operation and use **Try Operation** to test it. The echo server will\nrender back everything.\n"
+    },
+    "schemes": [
+        "http"
+    ],
+#    "basePath": "/",
+#    "paths": {
+#        "/api/": {
+#            "get":{
+#                "summary": "Price Estimates"
+#            }
+#        }
+#
+#    },
+#    "apis": {"operations":[
+#        {
+#            "parameters":[],
+#            "nickname":"Api_Root_GET",
+#            "notes":"",
+#            "summary":"",
+#            "type":"object",
+#            "method":"GET"
+#            }
+#        ],
+#     "path":"/api/",
+#     "description":"niufdsiaifidsaifidsiafidsiafici"
+#     },
+#
+#
+#    "NotFound": {
+#        "description": "Entity not found."
+#    },
+#    "IllegalInput": {
+#        "description": "Illegal input for operation."
+#    }
+
+
+}

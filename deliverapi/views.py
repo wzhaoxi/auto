@@ -9,10 +9,13 @@ from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse
 
 from deliverapi.models import Admin, Deploy, Log, JenkinsConfig, DeployConfig
-from deliverapi.serializers import AdminSerializer, DeploySerializer, LogSerializer,JenkinsConfigSerializer,DeployConfigSerializer
+from deliverapi.serializers import AdminSerializer, DeploySerializer, LogSerializer,JenkinsConfigSerializer,DeployConfigSerializer, LoginSerializer
 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 import urllib, urllib2, datetime
 import json, os
@@ -24,28 +27,10 @@ from deliverapi.deploy import Deployment
 
 
 
-class AdminAuth(APIView):
-    queryset = Admin.objects.all()
-    serializer_class = AdminSerializer
-
-    def post(self, request):
-        try:
-            print "test"
-            name = request.data.get('name')
-            passwd = request.data.get('passwd')
-            admin = Admin.objects.get(name__iexact=name)
-            if admin.check_password(passwd):
-                print admin
-                serializer = LoginSerializer({'id': admin.id, 'name': admin.name})
-                return Response(serializer.data)
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-        except Admin.DoesNotExist:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-
 
 class DeployList(APIView):
     """
-    List all Deployments, or create a new deployment.
+    List all history Deployments, or create a new deployment instance.
     """
     def get_admin(self,username):
         user = User.objects.get(username=username)
@@ -72,21 +57,27 @@ class DeployList(APIView):
             return False
 
     def post(self, request, format=None):
+        request._dont_enforce_csrf_checks = True
         admin =  self.get_admin(unicode(request.user))
         startTime = datetime.datetime.now()
         depInfo = {'appversion': request.data['appversion'] , 'codeversion': request.data['codeversion'], \
-                   'startTime': startTime, 'status': False, 'number':None, 'admin':admin}
+                   'startTime': startTime, 'status': False, 'logID':None, 'admin':admin}
         integrate = Integration(self.get_jenkinsConfig())
         integrate.start_build(depInfo['codeversion'])
         if not integrate.is_good():
             if serializer.is_valid():
                 serializer.save()
-#            Response( {'error': 'build error'}, status=status.HTTP_400_BAD_REQUEST)
-        num = integrate.get_number()
-        dep = Deployment(self.get_deployConfig(), depInfo['appversion'],num)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        log_id = integrate.get_number()
+        depInfo['logID'] = log_id
+        dep = Deployment(self.get_deployConfig(), depInfo['appversion'],log_id)
         dep.start_deploy()
-        depInfo['status'] = True
-        depInfo['number'] = num
+        if dep.is_good() :
+            depInfo['status'] = True
+        else:
+            if not dep.rollback_good():
+                remarks = "rollback failed"
         serializer = DeploySerializer(data=depInfo)
         if serializer.is_valid():
             serializer.save()
@@ -98,7 +89,7 @@ class DeployList(APIView):
 
 class DeployDetail(APIView):
     """
-    Retrieve, update or delete a deploy instance.
+    Retrieve, update or delete a deployment history.
     """
     def get_object(self, id):
         try:
@@ -119,6 +110,8 @@ class DeployDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+    """delete a deployment history."""
     def delete(self, request, id, format=None):
         deploy = self.get_object(id)
         deploy.delete()
@@ -237,3 +230,40 @@ def get_tag(req):
        listVersion.append(version)
        id = id + 1
     return Response(listVersion)
+
+
+
+
+def apiDocument(req):
+    """
+     return the API Document of Auto Deployment System.
+    """
+    return render_to_response('index.html')
+
+
+
+
+
+
+
+
+
+
+
+
+class LoginViewSet(APIView):
+    queryset = User.objects.all()
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        try:
+            username = request.data.get('username')
+            password = request.data.get('password')
+            user = User.objects.get(username__iexact=username)
+            if user.check_password(password):
+                print user
+                serializer = LoginSerializer({'id': user.id, 'username': user.username})
+                return Response(serializer.data)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)

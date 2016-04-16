@@ -24,7 +24,7 @@ class Deploy(models.Model):
     codeversion =  models.CharField(max_length = 50)
     startTime = models.DateTimeField()
     status = models.BooleanField()
-    number = models.IntegerField(null = True)
+    logID = models.IntegerField(null = True)
     admin = models.ForeignKey(Admin)
 
     class Meta:

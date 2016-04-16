@@ -25,7 +25,7 @@ class DeploySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Deploy
-        fields = ('id', 'created','appversion', 'codeversion', 'startTime', 'status', 'number','admin')
+        fields = ('id', 'created','appversion', 'codeversion', 'startTime', 'status', 'logID','admin')
 
 class JenkinsConfigSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,3 +47,13 @@ class LogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Log
         fields = ('id', 'created','deploy', 'message')
+
+
+class LoginSerializer(serializers.ModelSerializer):
+
+    username = serializers.CharField(required=False, max_length=1024)
+    password = serializers.CharField(required=False, max_length=1024)
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password')

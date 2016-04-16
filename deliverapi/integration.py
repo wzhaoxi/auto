@@ -16,20 +16,20 @@ class Integration(Jenkins):
 
   def start_build(self, codeversion):
     full_url = self.url + '/job/' + self.jobName + '/buildWithParameters?CODEVERSION=' + codeversion
-    print full_url
+#    print full_url
     req = urllib2.Request(full_url)
     urllib2.urlopen(req)
     while self.job.is_queued():
-      print "job is in queued"
+#      print "job is in queued"
       sleep(1)
 
     building = self.job.get_last_build()
     self.number = building.get_number()
 
     while self.job.is_running():
-      print building.get_console()
+#      print building.get_console()
       sleep(1)
-    print building.get_console()
+#    print building.get_console()
 
   def is_good(self):
     building = self.job.get_last_build()

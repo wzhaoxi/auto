@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 #    url(r'', include('deliverapi.urls')),
     url(r'^api/', include('deliverapi.urls')),
+    url(r'^docs/', include('rest_framework_docs.urls')),
+    url(r'^api-docs/', include('rest_framework_swagger.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
 ]

@@ -1,0 +1,499 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Auto Deployment System API",
+        "description": "Move your app forward with the Auto Deployment System API",
+        "version": "v1.0"
+    },
+    "host": "127.0.0.1:8000",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/deployment/": {
+            "get": {
+                "summary": "List all Deployments history",
+                "description": " Return a list of deployment history",
+                "tags": [
+                    "Deployment"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of deployment history"
+                    },
+                    "403": {
+                        "description": "Authentication credentials were not provided"
+                    }
+                }
+            },
+          "post": {
+            "summary": " create a new deployment instance",
+            "description": "Submit application version and code version , create a new deployment instance.",
+            "tags": [
+                "Deployment"
+            ],
+            "responses": {
+                "201": {
+                    "description": "successful operation"
+                },
+                "400": {
+                    "description": "Invalid parameters supplied"
+                },
+                "403": {
+                    "description": "Authentication credentials were not provided"
+                }
+            },
+            "parameters":[
+              {
+                "name": "codeversion",
+                "in": "formData",
+                "required": "true",
+                "description": "version from the remote version library ",
+                "type": "string"
+              },
+              {
+                "name": "appversion",
+                "in": "formData",
+                "required": "true",
+                "description": "application version",
+                "type": "string"
+              }
+            ]
+
+          }
+        },
+        "/api/deployment/{id}/": {
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "description": "ID",
+                "type": "string",
+                "required": "true"
+              }
+            ],
+            "get": {
+                "summary": "Get a deployment history",
+                "description": "Input the ID of deployment history, return a deployment history",
+                "tags": [
+                    "Deployment"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "403": {
+                        "description": "Authentication credentials were not provided"
+                    }
+                }
+            },
+            "delete": {
+              "summary": "Delete a deployment history",
+              "description": "Delete the deployment history of specified ID",
+              "tags": [
+                  "Deployment"
+              ],
+              "responses": {
+                "404": {
+                  "description": "Deployment history not found"
+                },
+                "204": {
+                  "description": "successful operation"
+                },
+                "403": {
+                    "description": "Authentication credentials were not provided"
+                }
+              }
+
+            }
+        },
+        "/api/log/{id}/": {
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID",
+              "type": "string",
+              "required": "true"
+            }
+          ],
+            "get": {
+                "summary": "Get a deployment log",
+                "description": "Get an existing deployment log of specified ID.",
+                "tags": [
+                    "Log"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                      "description": "Log not found"
+                    },
+                    "403": {
+                        "description": "Authentication credentials were not provided"
+                    }
+                }
+            },
+            "delete": {
+              "summary": "Delete a deployment log.",
+              "description": "Delete an existing deployment log of specified ID.",
+              "tags": [
+                  "Log"
+              ],
+              "responses": {
+                "404": {
+                  "description": "Log not found"
+                },
+                "204": {
+                  "description": "Successful operation"
+                },
+                "403": {
+                    "description": "Authentication credentials were not provided"
+                }
+              }
+
+            }
+
+        },
+        "/api/integrationConf/": {
+            "get": {
+                "summary": "Get the configuration of accessing integration platform",
+                "description": "Get the configuration of accessing integration platform",
+                "tags": [
+                    "IntegrationConf"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "No configuration"
+                    },
+                    "403": {
+                        "description": "Authentication credentials were not provided"
+                    }
+                }
+            },
+          "post":{
+            "summary": "Modify the configuration of accessing integration platform ",
+            "description": "Modify the configuration of accessing integration platform.\n If it does not exist, create",
+            "tags": [
+                "IntegrationConf"
+            ],
+            "parameters":[
+              {
+                "name": "url",
+                "in": "formData",
+                "required": "true",
+                "description": "url of accessing integration platform",
+                "type": "string"
+              },
+              {
+                "name": "jobName",
+                "in": "formData",
+                "required": "true",
+                "description": "integration job name",
+                "type": "string"
+              },
+              {
+                "name": "user",
+                "in": "formData",
+                "description": "user of integration platform",
+                "type": "string"
+              },
+              {
+                "name": "password",
+                "in": "formData",
+                "description": "password",
+                "type": "string"
+              }
+
+            ],
+          "responses": {
+                "201": {
+                    "description": "Successful operation"
+                },
+                "400": {
+                    "description": "Invalid parameters supplied"
+                },
+                "403": {
+                    "description": "Authentication credentials were not provided"
+                }
+            }
+
+          }
+        },
+
+        "/api/deploymentConf/": {
+            "get": {
+                "summary": "Get the configuration of Deployment",
+                "description": "Get the configuration of Deployment",
+                "tags": [
+                    "DeploymentConf"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "No configuration of deployment"
+                    },
+                    "403": {
+                        "description": "Authentication credentials were not provided"
+                    }
+                }
+            },
+          "post":{
+            "summary": "Modify the configuration of Deployment ",
+            "description": "Modify the configuration of Deployment.\n If it does not exist, create",
+            "tags": [
+                "DeploymentConf"
+            ],
+            "parameters":[
+              {
+                "name": "sourcepath",
+                "in": "formData",
+                "required": "true",
+                "description": "source path of war packge",
+                "type": "string"
+              },
+              {
+                "name": "dest_path",
+                "in": "formData",
+                "required": "true",
+                "description": "Release path of product environment  ",
+                "type": "string"
+              },
+              {
+                "name": "release_dir",
+                "in": "formData",
+                "required": "true",
+                "description": "release  directory",
+                "type": "string"
+              },
+              {
+                "name": "webapp_name",
+                "in": "formData",
+                "required": "true",
+                "description": "name in webapp directory",
+                "type": "string"
+              },
+              {
+                "name": "war_name",
+                "in": "formData",
+                "required": "true",
+                "description": "war packge name",
+                "type": "string"
+              },
+              {
+                "name": "request_domain",
+                "in": "formData",
+                "required": "true",
+                "description": "http://domain",
+                "type": "string"
+              },
+              {
+                "name": "request_uri",
+                "in": "formData",
+                "required": "true",
+                "description": "uri",
+                "type": "string"
+              },
+              {
+                "name": "current_link",
+                "in": "formData",
+                "required": "true",
+                "description": "soft link of tomcat version",
+                "type": "string"
+              },
+              {
+                "name": "host_string",
+                "in": "formData",
+                "required": "true",
+                "description": "user@ip_adress",
+                "type": "string"
+              },
+              {
+                "name": "host_passwd",
+                "in": "formData",
+                "required": "true",
+                "description": "password",
+                "type": "string"
+              }
+
+            ],
+          "responses": {
+                "201": {
+                    "description": "Successful operation"
+                },
+                "400": {
+                    "description": "Invalid parameters supplied"
+                },
+                "403": {
+                    "description": "Authentication credentials were not provided"
+                }
+            }
+
+          }
+        },
+      "/api/codeversion/": {
+            "get": {
+                "summary": "get the remote  version",
+                "description": "get the code version  ",
+                "tags": [
+                    "Codeversion"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Authentication credentials were not provided"
+                    }
+                }
+            }
+        }
+
+    },
+
+    "definitions": {
+        "Product": {
+            "type": "object",
+            "properties": {
+                "product_id": {
+                    "type": "string",
+                    "description": "Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of product."
+                },
+                "display_name": {
+                    "type": "string",
+                    "description": "Display name of product."
+                },
+                "capacity": {
+                    "type": "string",
+                    "description": "Capacity of product. For example, 4 people."
+                },
+                "image": {
+                    "type": "string",
+                    "description": "Image URL representing the product."
+                }
+            }
+        },
+        "PriceEstimate": {
+            "type": "object",
+            "properties": {
+                "product_id": {
+                    "type": "string",
+                    "description": "Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles"
+                },
+                "currency_code": {
+                    "type": "string",
+                    "description": "[ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) currency code."
+                },
+                "display_name": {
+                    "type": "string",
+                    "description": "Display name of product."
+                },
+                "estimate": {
+                    "type": "string",
+                    "description": "Formatted string of estimate in local currency of the start location. Estimate could be a range, a single number (flat rate) or \"Metered\" for TAXI."
+                },
+                "low_estimate": {
+                    "type": "number",
+                    "description": "Lower bound of the estimated price."
+                },
+                "high_estimate": {
+                    "type": "number",
+                    "description": "Upper bound of the estimated price."
+                },
+                "surge_multiplier": {
+                    "type": "number",
+                    "description": "Expected surge multiplier. Surge is active if surge_multiplier is greater than 1. Price estimate already factors in the surge multiplier."
+                }
+            }
+        },
+        "Profile": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string",
+                    "description": "First name of the Uber user."
+                },
+                "last_name": {
+                    "type": "string",
+                    "description": "Last name of the Uber user."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email address of the Uber user"
+                },
+                "picture": {
+                    "type": "string",
+                    "description": "Image URL of the Uber user."
+                },
+                "promo_code": {
+                    "type": "string",
+                    "description": "Promo code of the Uber user."
+                }
+            }
+        },
+        "Activity": {
+            "type": "object",
+            "properties": {
+                "uuid": {
+                    "type": "string",
+                    "description": "Unique identifier for the activity"
+                }
+            }
+        },
+        "Activities": {
+            "type": "object",
+            "properties": {
+                "offset": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Position in pagination."
+                },
+                "limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Number of items to retrieve (100 max)."
+                },
+                "count": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Total number of items available."
+                },
+                "history": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Activity"
+                    }
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "fields": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -10,7 +10,7 @@ from datetime import datetime as dt
 class Deployment(object):
 
 
-    def __init__(self, config, deploy_version, num):
+    def __init__(self, config, deploy_version, log_id):
         env.project_war_source = config['sourcepath']
         env.deploy_project_root = config['dest_path']
         env.deploy_release_dir = config['release_dir']
@@ -28,9 +28,11 @@ class Deployment(object):
         env.host_string = config['host_string']
         env.password= config['host_passwd']
 
-        env.file_hander = open('deliverapi/file/' + str(num), 'w', 0)
+        env.file_hander = open('deliverapi/file/' + str(log_id), 'w', 0)
         env.tomcat_old_version = ""
         self.step = 0
+        self.status = False
+        self.roll_status = False
 
     def get_current_version(self):
         with settings(warn_only = True):
@@ -221,17 +223,8 @@ class Deployment(object):
                             " : " + func_name + "  starting...  \n")
             func = eval(func_name)
             argv = func_obj[func_name]
-#            print argv
-#            argv_str = ''
             success = False
             if argv != '':
-#                if type(argv) is list:
-#                    for argv_s in argv:
-#                        argv_str = argv_str + ', %s' %argv_s
-#                    func_full_str = func_name + '(' + argv_str[2:] + ')'
-#                    success = eval(func_full_str)
-#                else:
-#                argv = eval(argv)
                 success = func(argv)
             else:
                 success = func()
@@ -279,6 +272,7 @@ class Deployment(object):
             return False
 
 
+
     def start_deploy(self):
         func_list = [{'self.create_new_tomcat':''}, {'self.put_war_package':''},\
         			{'self.unzip_war_package':''}, {'self.shutdown_tomcat':''}, \
@@ -287,5 +281,14 @@ class Deployment(object):
         self.get_current_version()
         self.call(func_list)
         if self.step != 8 :
-            self.rollback()
+            self.roll_status = self.rollback()
+        else:
+            self.status = True
         env.file_hander.close()
+
+
+    def is_good(self):
+        return self.status
+
+    def rollback_good(self):
+        return self.roll_status
