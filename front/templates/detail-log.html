@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+	<meta charset="utf-8">
+	<title>自动化部署系统</title>
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="robots" content="" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" href="/static/css/style.css" media="all" />
+	<!--[if IE]><link rel="stylesheet" href="css/ie.css" media="all" /><![endif]-->
+</head>
+<body>
+<div class="testing">
+<header class="main">
+	<h1><strong>自动化部署系统</strong></h1>
+	<input type="text" value="search" />
+</header>
+<section class="user">
+	<div class="profile-img">
+		<p><img src="images/uiface2.png" alt="" height="40" width="40" /> 欢迎回来 小明</p>
+	</div>
+	<div class="buttons">
+		<button class="ico-font">&#9206;</button>
+		<span class="button dropdown">
+			<a href="#">Notifications <span class="pip">4</span></a>
+			<ul class="notice">
+				<li>
+					<hgroup>
+						<h1>You have a new task</h1>
+						<h2>Report web statistics week by week.</h2>
+					</hgroup>
+					<p><span>14:24</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1>New comment</h1>
+						<h2>Comment on <em>About page</em> by Darren.</h2>
+					</hgroup>
+					<p><span>11:04</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1>Broken link</h1>
+						<h2>We've spotted a broken link on the <em>Blog page</em>.</h2>
+					</hgroup>
+					<p><span>10:46</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1>User report</h1>
+						<h2><em>Lee Grant</em> has been promoted to admin.</h2>
+					</hgroup>
+					<p><span>09:57</span></p>
+				</li>
+			</ul>
+		</span>
+		<span class="button dropdown">
+			<a href="#">Inbox <span class="pip">6</span></a>
+			<ul class="notice">
+				<li>
+					<hgroup>
+						<h1>Hi, I need a favour</h1>
+						<h2>John Doe</h2>
+						<h3>Lorem ipsum dolor sit amet, consectetuer sed aidping putamus delo de sit felume...</h3>
+					</hgroup>
+					<p><span>11:24</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1><span class="icon">&#59154;</span>Hi, I need a favour</h1>
+						<h2>John Doe</h2>
+						<h3>Lorem ipsum dolor sit amet, consectetuer sed aidping putamus delo de sit felume...</h3>
+					</hgroup>
+					<p><span>11:24</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1><span class="icon">&#59154;</span>Hi, I need a favour</h1>
+						<h2>John Doe</h2>
+						<h3>Lorem ipsum dolor sit amet, consectetuer sed aidping putamus delo de sit felume...</h3>
+					</hgroup>
+					<p><span>11:24</span></p>
+				</li>
+			</ul>
+		</span>
+		<span class="button">Live</span>
+		 <span class="button">Help</span>
+		 <span class="button blue"><a href="index.html">Logout</a></span>
+	</div>
+</section>
+</div>
+<nav>
+	<ul>
+		<li><a href="/dep_history/"><span class="icon">&#128711;</span> 返回上一级</a></li>
+		<li id=dep_situation_li >
+			<a href="/detail/{{id}}/" id=dep_situation><span class="icon">&#128196;</span> 部署情况<span class="pip">{{id}}</span></a>
+		</li>
+		<li id=dep_log_li class="section">
+			<a href="/detail/{{id}}/log" id="dep_log"><span class="icon">&#127748;</span> 部署日志 </a>
+		</li>
+		<li id="dep_delete_li">
+			<a href="/detail/{{id}}/delete" id="dep_delete"><span class="icon">&#59160;</span> 删除部署信息 </a>
+		</li>
+		<li><a href="/detail/{{next_id}}/" id="dep_next"><span class="icon">&#128202;</span> 下一条部署 <span class="pip">{{next_id}}</span></a></li>
+		<li><a href="/detail/{{last_id}}/" id="dep_last"><span class="icon">&#128101;</span>  上一条部署 <span class="pip">{{last_id}}</span></a></li>
+	</ul>
+</nav>
+
+<section class="content">
+	<section class="widget">
+		<header>
+			<span class="icon">&#59160;</span>
+			<hgroup>
+				<h1>Blog</h1>
+				<h2>CMS blog pages</h2>
+			</hgroup>
+			<aside>
+				<span>
+					<a href="#">&#9881;</a>
+					<ul class="settings-dd">
+						<li><label>Option a</label><input type="checkbox" /></li>
+						<li><label>Option b</label><input type="checkbox" checked="checked" /></li>
+						<li><label>Option c</label><input type="checkbox" /></li>
+					</ul>
+				</span>
+			</aside>
+		</header>
+    <div id="dep_details" class="detaillog">
+      <h1>
+        <img  src="/static/images/blue.png">日志输出
+      </h1>
+      <pre id="console">
+      <!--  <img  src="http://127.0.0.1:8080/job/userfor/158/consoleText" /> -->
+      </pre>
+    </div>
+
+	</section>
+</section>
+<script src="/static/jquery/1.6.4/jquery.min.js"></script>
+<script src="/static/js/jquery.wysiwyg.js"></script>
+<script src="/static/js/custom.js"></script>
+<script src="/static/js/cycle.js"></script>
+<script src="/static/js/jquery.checkbox.min.js"></script>
+<script src="/static/js/jquery.tablesorter.min.js"></script>
+<script src="/static/js/deploymentlog.js"></script>
+</body>
+</html>

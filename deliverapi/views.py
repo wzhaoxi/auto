@@ -17,12 +17,15 @@ from deliverapi.serializers import AdminSerializer, DeploySerializer, LogSeriali
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 import urllib, urllib2, datetime
-import json, os
+import json, os, time
 
 
 from deliverapi.integration import Integration
 from deliverapi.deploy import Deployment
+
 # Create your views here.
 
 
@@ -32,15 +35,51 @@ class DeployList(APIView):
     """
     List all history Deployments, or create a new deployment instance.
     """
+    def utc2local(self,utc_st_string):
+        """UTC time --> local_time"""
+        utc_st = datetime.datetime.strptime(utc_st_string, "%Y-%m-%dT%H:%M:%SZ")
+        now_stamp = time.time()
+        local_time = datetime.datetime.fromtimestamp(now_stamp)
+        utc_time = datetime.datetime.utcfromtimestamp(now_stamp)
+        offset = local_time - utc_time
+        local_st = utc_st + offset
+        return local_st
+
     def get_admin(self,username):
         user = User.objects.get(username=username)
         admin = Admin.objects.get(username=user)
         return  admin.id
 
+    def get_user_name(self, id):
+        admin = Admin.objects.get(id=id);
+        user = User.objects.get(id=admin.username_id)
+        return user.username
+
+
     def get(self, request, format=None):
-        deploys = Deploy.objects.all()
+        deploy_list = Deploy.objects.all().order_by("-created")
+        paginator = Paginator(deploy_list, 10) # Show 10 contacts per page
+        page = request.GET.get('page')
+        try:
+            deploys = paginator.page(page)
+        except PageNotAnInteger:
+            deploys = paginator.page(1)
+        except EmptyPage:
+            deploys = paginator.page(paginator.num_pages)
         serializer = DeploySerializer(deploys, many=True)
-        return Response(serializer.data)
+        for i in range(len(serializer.data)) :
+            temp_name = self.get_user_name(serializer.data[i]['admin'])
+            serializer.data[i]['admin'] = temp_name
+
+            if serializer.data[i]['status'] :
+                serializer.data[i]['status'] = "success"
+            else:
+                serializer.data[i]['status'] = "failed"
+
+            local_time = self.utc2local(serializer.data[i]['created'])
+            serializer.data[i]['created'] = local_time.strftime("%Y-%m-%d %H:%M:%S")
+        testdata= {"totalpage":paginator.num_pages, "rows": serializer.data}
+        return Response(testdata)
 
     def get_jenkinsConfig(self):
         try:
@@ -97,10 +136,53 @@ class DeployDetail(APIView):
         except Deploy.DoesNotExist:
             raise Http404
 
+    def get_next_id(self, id):
+        gt_deploy = Deploy.objects.filter(id__gt=id)
+        if gt_deploy:
+            return gt_deploy[0].id
+        else :
+            return None
+
+    def get_last_id(self, id):
+        lt_deploy = list(Deploy.objects.filter(id__lt=id))
+        if lt_deploy:
+            return lt_deploy[-1].id
+        else :
+            return None
+
+    def utc2local(self,utc_st_string):
+        """UTC time --> local_time"""
+        utc_st = datetime.datetime.strptime(utc_st_string, "%Y-%m-%dT%H:%M:%SZ")
+        now_stamp = time.time()
+        local_time = datetime.datetime.fromtimestamp(now_stamp)
+        utc_time = datetime.datetime.utcfromtimestamp(now_stamp)
+        offset = local_time - utc_time
+        local_st = utc_st + offset
+        return local_st
+
+    def get_user_name(self, id):
+        admin = Admin.objects.get(id=id);
+        user = User.objects.get(id=admin.username_id)
+        return user.username
+
     def get(self, request, id, format=None):
         deploy = self.get_object(id)
         serializer = DeploySerializer(deploy)
-        return Response(serializer.data)
+        data = serializer.data
+        temp_user = self.get_user_name(serializer.data['admin'])
+        data['admin'] = temp_user
+        if serializer.data['status']:
+            data['status'] = "success"
+        else:
+            data['status'] = "failed"
+
+        local_time = self.utc2local(serializer.data['created'])
+        data['created'] = local_time.strftime("%Y-%m-%d %H:%M:%S")
+
+        local_time = self.utc2local(serializer.data['startTime'])
+        data['startTime'] = local_time.strftime("%Y-%m-%d %H:%M:%S")
+
+        return Response(data)
 
     def put(self, request, id, format=None):
         deploy = self.get_object(id)

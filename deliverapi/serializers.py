@@ -27,6 +27,10 @@ class DeploySerializer(serializers.ModelSerializer):
         model = Deploy
         fields = ('id', 'created','appversion', 'codeversion', 'startTime', 'status', 'logID','admin')
 
+
+
+
+
 class JenkinsConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model = JenkinsConfig

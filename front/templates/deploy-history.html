@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+	<meta charset="utf-8">
+	<title>自动化部署系统</title>
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="robots" content="" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" href="/static/css/style.css" media="all" />
+	<!--[if IE]><link rel="stylesheet" href="css/ie.css" media="all" /><![endif]-->
+</head>
+<body>
+<div class="testing">
+<header class="main">
+	<h1><strong>自动化部署系统</strong></h1>
+	<input type="text" value="search" />
+</header>
+<section class="user">
+	<div class="profile-img">
+		<p><img src="images/uiface2.png" alt="" height="40" width="40" /> 欢迎回来</p>
+	</div>
+	<div class="buttons">
+		<button class="ico-font">&#9206;</button>
+		<span class="button dropdown">
+			<a href="#">Notifications <span class="pip">4</span></a>
+			<ul class="notice">
+				<li>
+					<hgroup>
+						<h1>You have a new task</h1>
+						<h2>Report web statistics week by week.</h2>
+					</hgroup>
+					<p><span>14:24</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1>New comment</h1>
+						<h2>Comment on <em>About page</em> by Darren.</h2>
+					</hgroup>
+					<p><span>11:04</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1>Broken link</h1>
+						<h2>We've spotted a broken link on the <em>Blog page</em>.</h2>
+					</hgroup>
+					<p><span>10:46</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1>User report</h1>
+						<h2><em>Lee Grant</em> has been promoted to admin.</h2>
+					</hgroup>
+					<p><span>09:57</span></p>
+				</li>
+			</ul>
+		</span>
+		<span class="button dropdown">
+			<a href="#">Inbox <span class="pip">6</span></a>
+			<ul class="notice">
+				<li>
+					<hgroup>
+						<h1>Hi, I need a favour</h1>
+						<h2>John Doe</h2>
+						<h3>Lorem ipsum dolor sit amet, consectetuer sed aidping putamus delo de sit felume...</h3>
+					</hgroup>
+					<p><span>11:24</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1><span class="icon">&#59154;</span>Hi, I need a favour</h1>
+						<h2>John Doe</h2>
+						<h3>Lorem ipsum dolor sit amet, consectetuer sed aidping putamus delo de sit felume...</h3>
+					</hgroup>
+					<p><span>11:24</span></p>
+				</li>
+				<li>
+					<hgroup>
+						<h1><span class="icon">&#59154;</span>Hi, I need a favour</h1>
+						<h2>John Doe</h2>
+						<h3>Lorem ipsum dolor sit amet, consectetuer sed aidping putamus delo de sit felume...</h3>
+					</hgroup>
+					<p><span>11:24</span></p>
+				</li>
+			</ul>
+		</span>
+		<span class="button">Live</span>
+		 <span class="button">Help</span>
+     <span class="button blue"><a  href="/logout/" onclick='javascript:location.replace(""); event.returnValue=false;' >Logout</a></span>
+	</div>
+</section>
+</div>
+<nav>
+	<ul>
+    <li><a ><span class="icon">&#128711;</span> ---- </a></li>
+		<li>
+			<a href="/auto_deploy/"><span class="icon">&#128196;</span>开始部署</a>
+		</li>
+		<li class="section">
+			<a href="/dep_history/"><span class="icon">&#127748;</span> 部署历史 <span class="pip">7</span></a>
+		</li>
+		<li>
+			<a href="#"><span class="icon"></span></a>
+		</li>
+		<li><a href="#"><span class="icon"></span></a></li>
+		<li><a href="users.html"><span class="icon">&#128101;</span> 系统管理员 <span class="pip">3</span></a></li>
+		<li>
+			<a href="#"><span class="icon">&#9881;</span> 参数配置 </a>
+			<ul class="submenu">
+        <li><a href="/deployment_conf/">生产服务器配置</a></li>
+        <li><a href="/integration_conf/">集成环境</a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+<section class="content">
+	<section class="widget">
+		<header>
+			<span class="icon">&#128196;</span>
+			<hgroup>
+				<h1>Pages</h1>
+				<h2>CMS content pages</h2>
+			</hgroup>
+			<aside>
+				<span>
+					<a href="#">&#9881;</a>
+					<ul class="settings-dd">
+						<li><label>Option a</label><input type="checkbox" /></li>
+						<li><label>Option b</label><input type="checkbox" checked="checked" /></li>
+						<li><label>Option c</label><input type="checkbox" /></li>
+					</ul>
+				</span>
+			</aside>
+		</header>
+		<div class="content">
+			<table id="myTable" border="0" width="100">
+<!--			<thead>
+					<tr>
+						<th>部署版本</th>
+						<th >时间</th>
+						<th>生产服务器</th>
+						<th>状态</th>
+						<th>管理员</th>
+					</tr>
+				</thead>
+					<tbody id="deployInfo">
+
+					</tbody>
+    -->
+				</table>
+		</div>
+	</section>
+</section>
+<script src="/static/jquery/1.6.4/jquery.min.js"></script>
+<script src="/static/js/jquery.wysiwyg.js"></script>
+<script src="/static/js/jquery.checkbox.min.js"></script>
+<script src="/static/js/jquery.tablesorter.min.js"></script>
+<script src="/static/js/deployment.js"></script>
+<script src="/static/js/custom.js"></script>
+<script src="/static/js/cycle.js"></script>
+<script src="/static/js/flot.js"></script>
+<script src="/static/js/flot.resize.js"></script>
+<script src="/static/js/flot-graphs.js"></script>
+<script src="/static/js/flot-time.js"></script>
+<script src="/static/js/cycle.js"></script>
+
+</body>
+</html>
